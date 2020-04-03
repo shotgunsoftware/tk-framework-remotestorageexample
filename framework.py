@@ -18,9 +18,20 @@ import sgtk
 class RemoteStorageFramework(sgtk.platform.Framework):
 
     def upload_publish(self, published_file):
-        return self.upload_publishes([published_file])[0]
+        """
+        Uploads a PublishedFile's path to the remote storage.
+        :param published_file: dict
+        :return: str path to uploaded file
+        """
+        paths = self.upload_publishes([published_file])[0]
+        return paths[0] if len(paths) else None
 
     def upload_publishes(self, published_files):
+        """
+        Uploads a list of PublishedFile's paths to the remote storage.
+        :param published_files: list of dicts
+        :return: list of strings to the uploaded files
+        """
         uploaded_files = []
         for published_file in published_files:
             uploaded_files.append(self.execute_hook_method("provider_hook",
@@ -29,9 +40,20 @@ class RemoteStorageFramework(sgtk.platform.Framework):
         return uploaded_files
 
     def download_publish(self, published_file):
-        return self.download_publishes([published_file])[0]
+        """
+        Downloads a list of PublishedFiles from the remote storage to the local storage.
+        :param published_file: dict
+        :return: str path to the downloaded file.
+        """
+        paths = self.download_publishes([published_file])
+        return paths[0] if len(paths) else None
 
     def download_publishes(self, published_files):
+        """
+        Downloads a list of PublishedFiles from the remote storage to the local storage.
+        :param published_files: list of dicts
+        :return: list of strings of paths to the downloaded files.
+        """
         downloaded_files = []
         for published_file in published_files:
             downloaded_files.append(self.execute_hook_method("provider_hook",

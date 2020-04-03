@@ -62,6 +62,10 @@ class LocalProvider(HookBaseClass):
         self.logger.info("downloading %s" % published_file)
 
         remote_path = self._generate_remote_path(published_file)
+        if not os.path.exists(remote_path):
+            self.logger.warning("PublishedFile %s could not be found in the remote storage." % published_file["id"])
+            return None
+
         # TODO: maybe try and resolve the path rather than expecting to be able to place
         #  it back in exactly the same location that it was when it was published
         destination = published_file["path"]["local_path"]
