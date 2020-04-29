@@ -40,7 +40,7 @@ class RemoteStorageFramework(sgtk.platform.Framework):
         uploaded_files = []
         try:
             for published_file in published_files:
-                self._progress_dialog.show_download_msg("Uploading %s ..." % published_file["code"])
+                self._progress_dialog.show_download_msg("Sending to remote: %s ..." % published_file["code"])
                 self.logger.debug("Executing upload hook for %s" % published_file)
                 uploaded_files.append(self.execute_hook_method("provider_hook",
                                                                "upload",
@@ -68,7 +68,7 @@ class RemoteStorageFramework(sgtk.platform.Framework):
 
         try:
             for published_file in published_files:
-                self._progress_dialog.show_download_msg("Downloading %s ..." % published_file["code"])
+                self._progress_dialog.show_download_msg("Retrieving from remote: %s ..." % published_file["code"])
                 self.logger.debug("Executing download hook for %s" % published_file)
                 downloaded_files.append(self.execute_hook_method("provider_hook",
                                                              "download",
