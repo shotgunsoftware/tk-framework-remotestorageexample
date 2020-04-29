@@ -17,6 +17,11 @@ import sgtk
 
 class RemoteStorageFramework(sgtk.platform.Framework):
 
+    def init_framework(self):
+        self.logger.debug("Initializing REmote Storage framework")
+        ph = self.import_module("progress_handler")
+        self._progress_dialog = ph.ProgressNotificationDialog()
+
     def upload_publish(self, published_file):
         """
         Uploads a PublishedFile's path to the remote storage.
@@ -33,10 +38,15 @@ class RemoteStorageFramework(sgtk.platform.Framework):
         :return: list of strings to the uploaded files
         """
         uploaded_files = []
-        for published_file in published_files:
-            uploaded_files.append(self.execute_hook_method("provider_hook",
-                                                           "upload",
-                                                           published_file=published_file))
+        try:
+            for published_file in published_files:
+                self._progress_dialog.show_download_msg("Uploading %s ..." % published_file["code"])
+                self.logger.debug("Executing upload hook for %s" % published_file)
+                uploaded_files.append(self.execute_hook_method("provider_hook",
+                                                               "upload",
+                                                               published_file=published_file))
+        finally:
+            self._progress_dialog.close()
         return uploaded_files
 
     def download_publish(self, published_file):
@@ -55,8 +65,15 @@ class RemoteStorageFramework(sgtk.platform.Framework):
         :return: list of strings of paths to the downloaded files.
         """
         downloaded_files = []
-        for published_file in published_files:
-            downloaded_files.append(self.execute_hook_method("provider_hook",
+
+        try:
+            for published_file in published_files:
+                self._progress_dialog.show_download_msg("Downloading %s ..." % published_file["code"])
+                self.logger.debug("Executing download hook for %s" % published_file)
+                downloaded_files.append(self.execute_hook_method("provider_hook",
                                                              "download",
                                                              published_file=published_file))
+        finally:
+            self._progress_dialog.close()
         return downloaded_files
+    
