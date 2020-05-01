@@ -15,7 +15,7 @@ configuration:
   provider_hook:
     type: hook
     description: Hook for implementing the cloud storage provider's upload and download logic.
-    default_value: '{self}/example_local_provider.py'
+    default_value: '{self}/template_provider_hook.py'
 
 # the Shotgun fields that this engine needs in order to operate correctly
 requires_shotgun_fields:
@@ -30,4 +30,3 @@ requires_core_version: "v0.19.1"
 
 # the frameworks this framework requires
 frameworks:
-

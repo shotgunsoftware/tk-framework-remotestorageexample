@@ -16,6 +16,7 @@ import sgtk
 
 HookBaseClass = sgtk.get_hook_baseclass()
 
+
 class TemplateProvider(HookBaseClass):
 
     """

@@ -16,6 +16,7 @@ import sgtk
 
 HookBaseClass = sgtk.get_hook_baseclass()
 
+
 class LocalProvider(HookBaseClass):
 
     """
@@ -36,20 +37,29 @@ class LocalProvider(HookBaseClass):
         """
         self.logger.info("uploading %s" % published_file)
 
-
-        if "path" in published_file and "local_path" in published_file["path"] and published_file["path"]["local_path"]:
+        if (
+            "path" in published_file
+            and "local_path" in published_file["path"]
+            and published_file["path"]["local_path"]
+        ):
             # Build a path to copy the published file to in our mocked remote storage.
             destination_path = self._generate_remote_path(published_file)
             self.logger.info("mock uploading file to %s" % destination_path)
             if os.path.exists(destination_path):
-                self.logger.warning("PublishedFile already exists in remote location: %s" % published_file)
+                self.logger.warning(
+                    "PublishedFile already exists in remote location: %s"
+                    % published_file
+                )
                 return
 
-            sgtk.util.filesystem.copy_file(published_file["path"]["local_path"],
-                                           destination_path)
+            sgtk.util.filesystem.copy_file(
+                published_file["path"]["local_path"], destination_path
+            )
             return destination_path
 
-        self.logger.warning("No local file path found on PublishedFile: %s" % published_file)
+        self.logger.warning(
+            "No local file path found on PublishedFile: %s" % published_file
+        )
 
     def download(self, published_file):
         """
@@ -62,12 +72,22 @@ class LocalProvider(HookBaseClass):
         self.logger.info("downloading %s" % published_file)
 
         remote_path = self._generate_remote_path(published_file)
+        if not os.path.exists(remote_path):
+            self.logger.warning(
+                "PublishedFile %s could not be found in the remote storage."
+                % published_file["id"]
+            )
+            return None
+
         # TODO: maybe try and resolve the path rather than expecting to be able to place
         #  it back in exactly the same location that it was when it was published
         destination = published_file["path"]["local_path"]
 
         if os.path.exists(destination):
-            self.logger.warning("PublishedFile %s already exists locally here: %s" % (published_file["id"], destination))
+            self.logger.warning(
+                "PublishedFile %s already exists locally here: %s"
+                % (published_file["id"], destination)
+            )
             return
 
         sgtk.util.filesystem.copy_file(remote_path, destination)
@@ -82,7 +102,6 @@ class LocalProvider(HookBaseClass):
         """
         # Ext is usually included in the name so we are not explicitly setting it here.
         file_name = "{id}_{name}".format(
-            id=published_file["id"],
-            name=published_file["name"]
+            id=published_file["id"], name=published_file["name"]
         )
         return os.path.join(os.path.expandvars(self.remote_storage_location), file_name)
