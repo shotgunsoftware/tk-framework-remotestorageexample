@@ -1,5 +1,5 @@
 # Examples
- 
+
 - An example provider hook (`example_local_provider.py`), that implements a basic mock upload and download, but in reality just copies the files to a another folder and back again.
 
 - `post_phase.py` which is a `tk-multi-publish2` post phase hook that will upload* all PublishedFile paths at the end of a publish.

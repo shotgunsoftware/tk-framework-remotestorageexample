@@ -30,4 +30,3 @@ requires_core_version: "v0.19.1"
 
 # the frameworks this framework requires
 frameworks:
-

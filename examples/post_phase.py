@@ -1,4 +1,4 @@
-# Copyright (c) 2018 Shotgun Software Inc.
+# Copyright (c) 2020 Shotgun Software Inc.
 #
 # CONFIDENTIAL AND PROPRIETARY
 #
@@ -43,9 +43,11 @@ class PostPhaseHook(HookBaseClass):
                 self.logger.info("c_p_data %s" % c_p_data)
                 if c_p_data:
                     published_files[c_p_data["id"]] = c_p_data
-        
-        self.logger.info("Uploading the following published files: %s" % pformat(published_files))
-        remote_storage.upload_publishes( list(published_files.values()) )
+
+        self.logger.info(
+            "Uploading the following published files: %s" % pformat(published_files)
+        )
+        remote_storage.upload_publishes(list(published_files.values()))
 
     def get_published_file_data(self, item):
         if hasattr(item.properties, "sg_publish_data"):

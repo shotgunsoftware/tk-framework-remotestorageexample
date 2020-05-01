@@ -1,4 +1,4 @@
-# Copyright (c) 2015 Shotgun Software Inc.
+# Copyright (c) 2020 Shotgun Software Inc.
 #
 # CONFIDENTIAL AND PROPRIETARY
 #
@@ -19,7 +19,6 @@ HookBaseClass = sgtk.get_hook_baseclass()
 
 
 class MayaActions(HookBaseClass):
-
     def _create_reference(self, path, sg_publish_data):
         """
         Create a reference with the same settings Maya would use
@@ -64,12 +63,17 @@ class MayaActions(HookBaseClass):
         if downloaded_file is None:
             # We haven't downloaded a file, and the path doesn't already exist
             # We can't import it.
-            raise Exception("The PublishedFile %s could not be downloaded and does not exist "
-                            "locally, so could not be imported; file: %s" % (published_file["id"], path))
+            raise Exception(
+                "The PublishedFile %s could not be downloaded and does not exist "
+                "locally, so could not be imported; file: %s"
+                % (published_file["id"], path)
+            )
 
         if downloaded_file is not None and downloaded_file != path:
             # The example remote storage hook behaviour is to download to the exact same
             # location that the file was published to.
-            raise Exception("The downloaded file path does not match the original "
-                            "published one; original: %s downloaded: %s" % (path, downloaded_file))
+            raise Exception(
+                "The downloaded file path does not match the original "
+                "published one; original: %s downloaded: %s" % (path, downloaded_file)
+            )
         return downloaded_file
