@@ -2,7 +2,7 @@
 
 This is an example of a Toolkit Framework that could be used to provide an interface for uploading and downloading files to and from a cloud storage solution.
 
-**Note:** This is an example, and is not maintained/supported.
+**Note:** This was written as an example, and will not be maintained/supported by Shotgun Software.
 
 Actual upload and download functionality is not implemented by default, it is up to you to add it.
 
